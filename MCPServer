@@ -1,0 +1,117 @@
+You are a senior Python architect.
+
+Create a complete minimal Python FastMCP server project.
+
+Project name: mcp-server
+
+Create all folders and files exactly as listed below. Add minimal working sample code, not just empty files.
+
+Required structure:
+
+mcp-server/
+├── main.py
+├── pyproject.toml
+├── Dockerfile
+├── .env.example
+├── README.md
+├── .vscode/
+│   └── mcp.json
+├── app/
+│   ├── __init__.py
+│   ├── server.py
+│   ├── config.py
+│   ├── auth/
+│   │   ├── __init__.py
+│   │   ├── jwt_handler.py
+│   │   ├── session_manager.py
+│   │   └── middleware.py
+│   ├── tools/
+│   │   ├── __init__.py
+│   │   ├── auth_tools.py
+│   │   ├── tool_a_tools.py
+│   │   └── tool_b_tools.py
+│   ├── prompts/
+│   │   ├── __init__.py
+│   │   └── slash_commands.py
+│   ├── services/
+│   │   ├── __init__.py
+│   │   ├── auth_service.py
+│   │   ├── tool_a_service.py
+│   │   └── tool_b_service.py
+│   ├── db/
+│   │   ├── __init__.py
+│   │   ├── connection.py
+│   │   ├── models.py
+│   │   └── repositories/
+│   │       ├── __init__.py
+│   │       ├── session_repo.py
+│   │       ├── user_repo.py
+│   │       ├── tool_a_repo.py
+│   │       └── tool_b_repo.py
+│   └── context/
+│       ├── __init__.py
+│       └── response_context.py
+
+Functional requirements:
+
+1. Use FastMCP.
+2. main.py must start the MCP server.
+3. app/server.py must create the FastMCP instance and register:
+   - auth tools
+   - Tool A tools
+   - Tool B tools
+   - slash command prompts
+4. Authentication:
+   - JWT access token with 24-hour expiry
+   - refresh token support
+   - token id / jti stored in DB/session repository
+   - validation must check both JWT signature and active session lookup
+   - allow multiple active sessions per user
+5. Database:
+   - Provide minimal SQLAlchemy setup
+   - SQLite is acceptable for local development
+   - Use DATABASE_URL from environment variable
+   - Create UserSession model for active token/session storage
+6. Tools:
+   - login(username, password)
+   - refresh_token(refresh_token)
+   - logout(access_token)
+   - tool_a_action(access_token, input_value)
+   - tool_b_action(access_token, input_value)
+7. Services:
+   - Business logic must live in services, not tools
+   - Tool files should only call services
+8. Context:
+   - Create a standard build_response(data, metadata) helper
+   - Include correlation_id and timestamp in metadata
+9. Prompts / slash commands:
+   - Add MCP prompts for:
+     - mcp_login
+     - mcp_tool_a
+     - mcp_tool_b
+     - mcp_help
+   - Prompts should guide VS Code/Copilot to call the right MCP tools
+10. OpenShift:
+   - Dockerfile should run the MCP server on port 8080
+   - Provide deployment.yaml, service.yaml, route.yaml, configmap.yaml, secret.yaml
+11. VS Code:
+   - Add .vscode/mcp.json showing HTTP connection to the MCP server URL
+12. Keep code minimal but runnable.
+13. Do not add complex production code.
+14. Add comments where helpful.
+15. Use lowercase Python file names.
+16. Include a README with:
+   - setup steps
+   - run locally
+   - Docker build
+   - OpenShift deployment
+   - VS Code MCP connection example
+
+Important:
+- Create the actual files and folders.
+- Do not only explain.
+- Do not skip any file.
+- Keep all sample code simple and understandable.
+- Use placeholder authentication for username/password validation, but structure the code so real enterprise auth can be added later.
+- Avoid hardcoded secrets except in .env.example.
+- Make sure imports are consistent and the project can run with `python main.py`.
